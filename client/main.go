@@ -21,12 +21,12 @@ func main() {
 	flag.Parse()
 
 	url := flag.Arg(0)
-	//CAs from the system
-	rootCAs, _ := x509.SystemCertPool()
-	if rootCAs == nil {
-		//customer CA
-		rootCAs = x509.NewCertPool()
-	}
+	// //CAs from the system
+	// rootCAs, _ := x509.SystemCertPool()
+	// if rootCAs == nil {
+	// 	//customer CA
+	// 	rootCAs = x509.NewCertPool()
+	// }
 	//customer CA
 	rootCAs := x509.NewCertPool()
 
