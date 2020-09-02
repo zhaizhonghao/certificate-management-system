@@ -7,10 +7,10 @@ Public-Key Infrastructure (PKI) is a technology which enables the secure communi
 We implement a  X.509 v3 certificate management system using the Golang official package [crypto](https://golang.org/pkg/crypto/). Our system has following capabilities:
 
 * Certificate Sign Request (CSR) generation
-  * Generating the CSR
+  * Generating the CSR 
 
-* Key generation 
-  * Generating the RSA based key pair
+* [Key generation](certificateManagement/README.md) 
+  * Generating the RSA based key pair 
 
 * Certificate management
 
