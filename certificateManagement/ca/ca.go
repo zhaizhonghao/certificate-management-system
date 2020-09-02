@@ -92,7 +92,7 @@ func createSelfSignedCert(fn string, key *rsa.PrivateKey) ([]byte, error) {
 	//To set the valid period
 	issuer.NotBefore = now
 	//AddDate(years int,months int,days int)
-	issuer.NotAfter = now.AddDate(1, 0, 0)
+	issuer.NotAfter = now.AddDate(2, 0, 0)
 
 	//To set the information of  parent *Certificate(https://golang.org/pkg/crypto/x509/#Certificate)
 	issuer.Subject = issuerInfo()

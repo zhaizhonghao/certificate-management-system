@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-func CreateClientCA(cn string) error {
+func CreateClientCert(cn string) error {
 	if len(cn) == 0 {
 		return fmt.Errorf("invalid client name '%v'", cn)
 	}
@@ -49,7 +49,7 @@ func createSignedCert(cn string, clientKey *rsa.PublicKey) error {
 	client.NotAfter = now.AddDate(1, 0, 0)
 
 	//To set the information of  parent *Certificate(https://golang.org/pkg/crypto/x509/#Certificate)
-	client.Subject = clientInfo()
+	client.Subject = clientInfo(cn)
 
 	client.SubjectKeyId = getKeyID(clientKey)
 	//The intent for the cerificate
@@ -60,7 +60,7 @@ func createSignedCert(cn string, clientKey *rsa.PublicKey) error {
 		x509.ExtKeyUsageEmailProtection,
 	}
 
-	client.DNSNames = []string{"liujiang.njupt.edu.cn", "localhost"}
+	client.DNSNames = []string{cn}
 	client.EmailAddresses = []string{"1016041104@njupt.edu.cn"}
 
 	//func CreateCertificate(rand io.Reader, template, parent *Certificate, pub, priv interface{}) (cert []byte, err error)
@@ -80,9 +80,9 @@ func createSignedCert(cn string, clientKey *rsa.PublicKey) error {
 	return err
 }
 
-func clientInfo() pkix.Name {
+func clientInfo(cn string) pkix.Name {
 	name := pkix.Name{
-		CommonName:         "Liu jiang",
+		CommonName:         cn,
 		Country:            []string{"CN"},
 		Organization:       []string{"Nanjing University of Posts and Telecommunications"},
 		OrganizationalUnit: []string{"IT"},
