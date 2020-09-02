@@ -31,4 +31,8 @@ This package is used to initial the root CA and issue a certificate for a client
     `go run main.go`
 
 * To check the certificate in DER
-`openssl x509 -inform DER -in ca_cert.der -text`
+  `openssl x509 -inform DER -in ca_cert.der -text`
+
+* To check the certificate in PEM
+
+  `openssl x509 -inform PEM -in ca_cert.pem -text`

@@ -9,7 +9,7 @@ We implement a  X.509 v3 certificate management system using the Golang official
 * Certificate Sign Request (CSR) generation
   * Generating the CSR 
 
-* [Key generation](certificateManagement/README.md) 
+* [Key generation](certificateManagement/key-id.go) 
   * Generating the RSA based key pair 
 
 * Certificate management
