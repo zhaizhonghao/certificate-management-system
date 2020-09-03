@@ -16,7 +16,7 @@ We implement a  X.509 v3 certificate management system using the Golang official
 
   *  Creating a self-signed certificate for the Root CA
 
-  *  Issuing a signed certificate for the requested client
+  *  Issuing a signed certificate based on the CSR of the subscriber
 
   *  Revoking an existing certificate
 
