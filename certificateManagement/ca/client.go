@@ -27,6 +27,8 @@ func CreateClientCert(cn string) error {
 
 }
 
+
+
 func initClientCert(cn string, key *rsa.PrivateKey) error {
 	err := createSignedCert(cn, &key.PublicKey)
 	if err != nil {

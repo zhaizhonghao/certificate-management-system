@@ -1,4 +1,4 @@
-module github.com/zhaizhonghao/server
+module github.com/zhaizhonghao/CertificateManagementSystem/server
 
 go 1.13
 
