@@ -4,10 +4,72 @@ import (
 	"crypto/rsa"
 	"crypto/x509"
 	"crypto/x509/pkix"
+	"encoding/pem"
 	"fmt"
+	"io/ioutil"
 	"math/big"
 	"time"
 )
+
+func CreateClientCertFromCSR(csrn string) error {
+	csrFile := csrn + ".csr"
+	data, err := ioutil.ReadFile(csrFile)
+	if err != nil {
+		return fmt.Errorf("unable to read the csr file:%v", err)
+	}
+	b, _ := pem.Decode(data)
+	var csr *x509.CertificateRequest
+	if b == nil {
+		csr, err = x509.ParseCertificateRequest(data)
+	} else {
+		csr, err = x509.ParseCertificateRequest(b.Bytes)
+	}
+	if err != nil {
+		return fmt.Errorf("unable to parse the csr file:%v", err)
+	}
+
+	client := &x509.Certificate{}
+	//the serialNumber is required
+	client.SerialNumber = big.NewInt(time.Now().Unix())
+
+	now := time.Now()
+
+	//To set the valid period
+	client.NotBefore = now
+	//AddDate(years int,months int,days int)
+	client.NotAfter = now.AddDate(1, 0, 0)
+
+	//To set the information of  parent *Certificate(https://golang.org/pkg/crypto/x509/#Certificate)
+	client.Subject = csr.Subject
+
+	client.SubjectKeyId = getKeyID(csr.PublicKey.(*rsa.PublicKey))
+	//The intent for the cerificate
+	client.KeyUsage = x509.KeyUsageDigitalSignature | x509.KeyUsageKeyEncipherment
+	client.ExtKeyUsage = []x509.ExtKeyUsage{
+		x509.ExtKeyUsageServerAuth,
+		x509.ExtKeyUsageAny,
+		x509.ExtKeyUsageEmailProtection,
+	}
+
+	client.DNSNames = csr.DNSNames
+	client.EmailAddresses = csr.EmailAddresses
+
+	//func CreateCertificate(rand io.Reader, template, parent *Certificate, pub, priv interface{}) (cert []byte, err error)
+	//CreateCertificate creates a new X.509v3 certificate(DER) based on a template
+	//since it is a self-signed certificate, the subject is the issuer
+	der, err := x509.CreateCertificate(rng, client, rootCAInfo.cert, csr.PublicKey.(*rsa.PublicKey), rootCAInfo.key)
+	if err != nil {
+		return fmt.Errorf("unable to create cert:%v", err)
+	}
+
+	fn := csr.Subject.CommonName + ".pem"
+	err = exportCert(fn, der)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
 
 func CreateClientCert(cn string) error {
 	if len(cn) == 0 {
@@ -26,8 +88,6 @@ func CreateClientCert(cn string) error {
 	return err
 
 }
-
-
 
 func initClientCert(cn string, key *rsa.PrivateKey) error {
 	err := createSignedCert(cn, &key.PublicKey)

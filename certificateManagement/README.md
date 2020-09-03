@@ -1,6 +1,8 @@
 # Certificate Management
 
-This package is used to initial the root CA and issue a certificate for a client.
+This package is used to initial the root CA and issue a certificate for a client based on the CSR. 
+
+In the future, we plan to add the automatic certificate revocation and certificate modification capabilities.
 
 
 
@@ -14,21 +16,23 @@ This package is used to initial the root CA and issue a certificate for a client
 
     ```
     Usage of ...:
+      -CSR-filename string
+            file to read CSR (default "localhost")
       -ca-filename string
             file to write CA cert and private key (default "myca")
-      -client-filename string
-            file to write client cert and private key (default "localhost")
     ```
 
   * To run
 
-    `go run main.go -ca-filename [ca-filename] -client-filename [client-filename]`
+    `go run main.go -ca-filename [ca-filename] -CSR-filename [csr-filename]`
 
-    Notice: If the `client-filename` is not the localhost, please ensure that the assigned `client-filename` is in the **hosts** file (e.g., `/etc/hosts` in the linux).
+    ***Notice***: If the `csr-filename` is not the localhost, please ensure that the assigned `csr-filename` is in the **hosts** file (e.g., `/etc/hosts` in the linux). Besides, you must ensure that the CSR file has generated and been moved under the **certificateManagement** sub-folder.
 
     or running with the default setting
 
     `go run main.go`
+    
+    
 
 * To check the certificate in DER
   `openssl x509 -inform DER -in ca_cert.der -text`

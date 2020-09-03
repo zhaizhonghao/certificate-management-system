@@ -1,0 +1,2 @@
+rm *.pem
+rm *.csr
