@@ -28,6 +28,11 @@ func CreateClientCertFromCSR(csrn string) error {
 		return fmt.Errorf("unable to parse the csr file:%v", err)
 	}
 
+	err = csr.CheckSignature()
+	if err != nil {
+		return fmt.Errorf("The signature of csr is invalid:%v", err)
+	}
+
 	client := &x509.Certificate{}
 	//the serialNumber is required
 	client.SerialNumber = big.NewInt(time.Now().Unix())

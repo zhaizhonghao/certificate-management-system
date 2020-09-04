@@ -34,4 +34,10 @@ func main() {
 	fmt.Println(csr.Subject.CommonName)
 	fmt.Println(csr.Subject)
 	fmt.Println(csr.PublicKey)
+	err = csr.CheckSignature()
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println("the signature of the csr is valid")
+	}
 }
