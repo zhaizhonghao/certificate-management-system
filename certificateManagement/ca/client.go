@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-func CreateClientCertFromCSR(csrn string) error {
+func CreateClientCertFromCSR(csrFile string) error {
 	csrFile := csrn + ".csr"
 	data, err := ioutil.ReadFile(csrFile)
 	if err != nil {
