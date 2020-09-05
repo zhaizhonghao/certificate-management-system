@@ -42,7 +42,6 @@ func main() {
 	router.HandleFunc("/certificate", patchCertificate).Methods("PATCH")
 
 	http.ListenAndServe(":5000", router)
-
 }
 
 func requestCertificate(w http.ResponseWriter, r *http.Request) {
@@ -127,13 +126,13 @@ func requestCertificate(w http.ResponseWriter, r *http.Request) {
 }
 
 func revokeCertificate(w http.ResponseWriter, r *http.Request) {
-
+	//TODO
 }
 
 func updateCertificate(w http.ResponseWriter, r *http.Request) {
-
+	//TODO
 }
 
 func patchCertificate(w http.ResponseWriter, r *http.Request) {
-
+	//TODO
 }
